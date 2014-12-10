@@ -10,6 +10,9 @@ import org.apache.felix.shell.Command;
 import java.io.PrintStream;
 
 public class JoinCommand implements Command {
+    public JoinCommand() {
+    }
+
     @Override
     public String getName() {
         return "join";
