@@ -1,8 +1,9 @@
 package net.gemelen.blackjack.actor;
 
+import akka.actor.ActorRef;
 import akka.actor.UntypedActor;
-import net.gemelen.blackjack.data.*;
 import java.util.*;
+import net.gemelen.blackjack.data.*;
 import static net.gemelen.blackjack.actor.Messages.*;
 
 public class Dealer extends UntypedActor {
@@ -13,7 +14,7 @@ public class Dealer extends UntypedActor {
     public Dealer(int shoeSize) {
         this.shoe = new Deck().getShoe(shoeSize);
 
-        DataGrid grid = new DataGrid();
+        DataGrid grid = DataGrid.getInstance();
 
         this.players = new HashMap<>();
         this.playersView = grid.getPlayers();
@@ -35,7 +36,7 @@ public class Dealer extends UntypedActor {
     public void onReceive(Object message) throws Exception {
         if (message instanceof Join) {
             Join player = (Join) message;
-            joinPlayer(player.getId());
+            joinPlayer(player.getId(), getSender());
 
         } else if (message instanceof Bet) {
             Bet bet = (Bet) message;
@@ -86,8 +87,9 @@ public class Dealer extends UntypedActor {
         return card;
     }
 
-    private void joinPlayer(int playerId) {
+    private void joinPlayer(int playerId, ActorRef actor) {
         PlayerRecord record = new PlayerRecord(playerId, System.currentTimeMillis());
+        record.setActor(actor);
         this.players.put(playerId, record);
         this.playersView.put(playerId, new PlayerRecordView(record));
     }

@@ -16,6 +16,7 @@ public class PlayerRecordView {
         this.id = record.getId();
         this.hands = new ArrayList<>(record.getHands().size());
         Collections.copy(this.hands, record.getHands());
+        // if player is dealer then we should fake his first card with CARDS,HOLECARD in shared players list
     }
 
     public List<Hand> getHands() {

@@ -1,10 +1,7 @@
 package net.gemelen.blackjack.actor;
 
 import akka.actor.UntypedActor;
-import com.hazelcast.config.Config;
-import com.hazelcast.core.Hazelcast;
-import com.hazelcast.core.HazelcastInstance;
-import net.gemelen.blackjack.data.Deck;
+import net.gemelen.blackjack.data.DataGrid;
 import net.gemelen.blackjack.data.PlayerRecordView;
 
 import java.util.Map;
@@ -14,17 +11,15 @@ import static net.gemelen.blackjack.actor.Messages.*;
 public class Player extends UntypedActor {
     private int amount;
     private final int id;
-    private final String dealerName;
-    private HazelcastInstance grid;
-    private Map<Integer, PlayerRecordView> players;
+    private DataGrid grid = DataGrid.getInstance();
+    private final String dealerName = grid.getCasino().get("dealer");
+    private Map<Integer, PlayerRecordView> players = grid.getPlayers();
 
-    public Player(String dealerName, int amount) {
-        this.dealerName = dealerName;
+    public Player(int amount) {
         this.amount = amount;
         this.id = this.hashCode();
-
-        Config cfg = new Config();
-        this.grid = Hazelcast.newHazelcastInstance(cfg);
+        join();
+        placeBet(amount);
     }
 
     public void join() {
@@ -37,19 +32,11 @@ public class Player extends UntypedActor {
         getContext().system().actorSelection(String.format("/user/%s", this.dealerName)).tell(bet, self());
     }
 
-    public void makeDecision(int handId, Deck.CARDS card) {
-        players = this.grid.getMap("players");
-        PlayerRecordView me = players.get(this.id);
-        if (me != null) {
-
-        }
-    }
-
     @Override
     public void onReceive(Object message) throws Exception {
         if (message instanceof DealCard) {
             DealCard dealCard = (DealCard) message;
-            makeDecision(dealCard.getHandId(), dealCard.getCard());
+
         } else if (message instanceof Win) {
             Win win = (Win) message;
             this.amount += win.getAmount();

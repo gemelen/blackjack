@@ -13,9 +13,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.version>1.8</java.version>
-    <osgi.version>4.3.1</osgi.version>
+    <osgi.version>4.3.0</osgi.version>
     <akka.version>2.3.3</akka.version>
-    <scala.dep.version>2.11</scala.dep.version>
+    <scala.dep.version>2.10</scala.dep.version>
   </properties>
 
   <repositories>
@@ -29,14 +29,9 @@
   <dependencies>
     <!--Akka-->
     <dependency>
-        <groupId>com.typesafe.akka</groupId>
-        <artifactId>akka-osgi_${scala.dep.version}</artifactId>
-        <version>${akka.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>com.typesafe.akka</groupId>
-        <artifactId>akka-remote_${scala.dep.version}</artifactId>
-        <version>${akka.version}</version>
+      <groupId>com.typesafe.akka</groupId>
+      <artifactId>akka-osgi_${scala.dep.version}</artifactId>
+      <version>${akka.version}</version>
     </dependency>
     <dependency>
         <groupId>com.typesafe.akka</groupId>
@@ -53,8 +48,9 @@
     <!--OSGI-->
     <dependency>
       <groupId>org.osgi</groupId>
-      <artifactId>org.osgi.core</artifactId>
+      <artifactId>core</artifactId>
       <version>${osgi.version}</version>
+      <scope>compile</scope>
     </dependency>
 
     <!--Hazelcast-->
@@ -72,6 +68,21 @@
     </dependency>
 
     <!--Other stuff-->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.7</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.1.2</version>
+    </dependency>
 
   </dependencies>
 
@@ -94,17 +105,18 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
-            <Bundle-Name>${pom.artifactId}</Bundle-Name>
+            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-Name>${project.artifactId}</Bundle-Name>
             <Bundle-Version>1.0.0</Bundle-Version>
             <Bundle-Activator>net.gemelen.blackjack.TwentyOne</Bundle-Activator>
-            <Export-Package>net.gemelen.blackjack.*</Export-Package>
+            <Export-Package>
+              net.gemelen.blackjack.*
+            </Export-Package>
             <Import-Package>
-              org.osgi.framework,*;resolution:=optional
-              com.typesafe.akka.*
-              com.typesafe.*
-              com.hazelcast.*
-              org.apache.felix.*
+              akka.actor;version=2.3.3,
+              com.hazelcast.*;version=3.3.3,
+              com.typesafe.config;version=1.2.1,
+              *
             </Import-Package>
           </instructions>
         </configuration>

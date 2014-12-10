@@ -1,5 +1,7 @@
 package net.gemelen.blackjack.data;
 
+import akka.actor.ActorRef;
+
 import java.util.List;
 
 public class PlayerRecord {
@@ -7,6 +9,7 @@ public class PlayerRecord {
     private List<Hand> hands;
     private boolean done;
     private long order;
+    private ActorRef actor;
 
     public PlayerRecord(int id, long order) {
         this.id = id;
@@ -35,6 +38,14 @@ public class PlayerRecord {
 
     public long getOrder() {
         return order;
+    }
+
+    public ActorRef getActor() {
+        return actor;
+    }
+
+    public void setActor(ActorRef actor) {
+        this.actor = actor;
     }
 
     public Hand getHandById(int handId) {

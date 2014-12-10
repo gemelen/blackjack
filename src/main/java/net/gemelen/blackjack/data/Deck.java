@@ -21,7 +21,8 @@ public class Deck {
         TEN(10),
         JACK(10),
         QUEEN(10),
-        KING(10);
+        KING(10),
+        HOLECARD(0);
 
         private int value;
 
