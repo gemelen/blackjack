@@ -7,6 +7,7 @@ public class Messages {
      * outer -> Dealer
      */
     public static final class GoToWork {}
+    public static final class JoinSelf {}
 
     /**
      * Player -> Dealer on join to game

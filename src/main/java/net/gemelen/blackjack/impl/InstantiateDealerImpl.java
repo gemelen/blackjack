@@ -31,7 +31,7 @@ public class InstantiateDealerImpl implements InstantiateDealer {
             OsgiActorSystemFactory factory = new OsgiActorSystemFactory(context, option, ConfigFactory.load());
             final ActorSystem system = factory.createActorSystem(actorSystemName);
             final ActorRef dealer = system.actorOf(Props.create(Dealer.class, deckAmount), dealerID);
-            dealer.tell(new Messages.GoToWork(), ActorRef.noSender());
+            dealer.tell(new Messages.JoinSelf(), ActorRef.noSender());
         } catch (Throwable t) {
             t.printStackTrace();
             System.out.println(t.getMessage());

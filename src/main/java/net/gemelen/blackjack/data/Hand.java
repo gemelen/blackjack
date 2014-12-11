@@ -1,9 +1,10 @@
 package net.gemelen.blackjack.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Hand {
+public class Hand implements Serializable{
     private List<Deck.CARDS> cards = new ArrayList<>();
     private int value = 0;
     private int betAmount;

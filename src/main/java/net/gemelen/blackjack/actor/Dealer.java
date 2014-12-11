@@ -22,10 +22,11 @@ public class Dealer extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if (message instanceof GoToWork) {
+        if (message instanceof JoinSelf) {
             // join dealer
             getSelf().tell(new Join(0), getSelf());
-
+        }
+        if (message instanceof GoToWork) {
             PlayerRecord me = players.get(0);
             Hand hand = new Hand(0, 36);
             List<Hand> hands = new ArrayList<>();
@@ -37,7 +38,9 @@ public class Dealer extends UntypedActor {
         } else if (message instanceof Join) {
             Join player = (Join) message;
             joinPlayer(player.getId(), getSender());
-
+            if (getSelf().equals(getSender())) {
+                getSelf().tell(new GoToWork(), self());
+            }
         } else if (message instanceof Bet) {
             Bet bet = (Bet) message;
             placeBet(bet.getAmount(), bet.getId());

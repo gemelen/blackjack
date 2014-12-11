@@ -1,10 +1,11 @@
 package net.gemelen.blackjack.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PlayerRecordView {
+public class PlayerRecordView implements Serializable {
     private int id;
     private List<Hand> hands;
 
@@ -14,9 +15,11 @@ public class PlayerRecordView {
 
     public PlayerRecordView(PlayerRecord record) {
         this.id = record.getId();
-        this.hands = new ArrayList<>(record.getHands() == null ? 0 : record.getHands().size());
+        this.hands = new ArrayList<>();
         if (record.getHands() != null ) {
-            Collections.copy(this.hands, record.getHands());
+            for (Hand hand : record.getHands()) {
+                this.hands.add(hand);
+            }
         }
         // if player is dealer then we should fake his first card with CARDS,HOLECARD in shared players list
     }
