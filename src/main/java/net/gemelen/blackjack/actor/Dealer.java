@@ -18,23 +18,23 @@ public class Dealer extends UntypedActor {
 
         this.players = new HashMap<>();
         this.playersView = grid.getPlayers();
-
-        // join dealer
-        getSelf().tell(new Join(0), getSelf());
-
-        PlayerRecord me = players.get(0);
-        Hand hand = new Hand(0, 36);
-        List<Hand> hands = new ArrayList<>();
-        hands.add(hand);
-        me.setHands(hands);
-
-        // deal first card to dealer hand
-        getSelf().tell(new Hit(0, me.getHands().get(0).getHandId()), getSelf());
     }
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if (message instanceof Join) {
+        if (message instanceof GoToWork) {
+            // join dealer
+            getSelf().tell(new Join(0), getSelf());
+
+            PlayerRecord me = players.get(0);
+            Hand hand = new Hand(0, 36);
+            List<Hand> hands = new ArrayList<>();
+            hands.add(hand);
+            me.setHands(hands);
+
+            // deal first card to dealer hand
+            getSelf().tell(new Hit(0, me.getHands().get(0).getHandId()), getSelf());
+        } else if (message instanceof Join) {
             Join player = (Join) message;
             joinPlayer(player.getId(), getSender());
 

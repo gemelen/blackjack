@@ -4,12 +4,14 @@ import net.gemelen.blackjack.data.Deck;
 
 public class Messages {
     /**
+     * outer -> Dealer
+     */
+    public static final class GoToWork {}
+
+    /**
      * Player -> Dealer on join to game
      */
     public static final class Join {
-        /**
-         * Player ID
-         */
         private int id;
 
         public Join(int id) {
@@ -26,9 +28,6 @@ public class Messages {
      */
     public static final class Bet {
         private int amount;
-        /**
-         * Player ID
-         */
         private int id;
 
         public Bet(int amount, int id) {

@@ -10,7 +10,9 @@ public class DataGrid {
     private static final String SETTINGS_MAP = "casino";
     private static final String PLAYERS_MAP = "players";
 
-    private Map<String, String> casino;
+    private HazelcastInstance grid;
+
+    private Map<String, Object> casino;
     private Map<Integer, PlayerRecordView> players;
 
     private DataGrid() {
@@ -27,7 +29,7 @@ public class DataGrid {
         pc.setReadBackupData(true);
         cfg.addMapConfig(pc);
 
-        HazelcastInstance grid = Hazelcast.newHazelcastInstance(cfg);
+        grid = Hazelcast.newHazelcastInstance(cfg);
 
         this.casino = grid.getMap(SETTINGS_MAP);
         this.players = grid.getMap(PLAYERS_MAP);
@@ -37,11 +39,17 @@ public class DataGrid {
         return instance;
     }
 
-    public Map<String, String> getCasino() {
+    public Map<String, Object> getCasino() {
         return casino;
     }
 
     public Map<Integer, PlayerRecordView> getPlayers() {
         return players;
+    }
+
+    public void stop() {
+        if (grid != null) {
+            grid.shutdown();
+        }
     }
 }

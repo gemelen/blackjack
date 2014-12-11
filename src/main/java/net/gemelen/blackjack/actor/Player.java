@@ -12,7 +12,7 @@ public class Player extends UntypedActor {
     private int amount;
     private final int id;
     private DataGrid grid = DataGrid.getInstance();
-    private final String dealerName = grid.getCasino().get("dealer");
+    private final String dealerName = (String) grid.getCasino().get("dealerID");
     private Map<Integer, PlayerRecordView> players = grid.getPlayers();
 
     public Player(int amount) {
