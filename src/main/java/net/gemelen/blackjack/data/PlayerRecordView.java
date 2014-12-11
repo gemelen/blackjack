@@ -13,16 +13,11 @@ public class PlayerRecordView {
     }
 
     public PlayerRecordView(PlayerRecord record) {
-        System.out.println("PlayerRecordView");
         this.id = record.getId();
-        System.out.println("PlayerRecordView: " + record.getId());
-        System.out.println("PlayerRecordView: " + record.getHands());
         this.hands = new ArrayList<>(record.getHands() == null ? 0 : record.getHands().size());
         if (record.getHands() != null ) {
             Collections.copy(this.hands, record.getHands());
         }
-        System.out.println("PlayerRecordView: " + (record.getHands() == null ? 0 : record.getHands().size()));
-        System.out.println("PlayerRecordView.");
         // if player is dealer then we should fake his first card with CARDS,HOLECARD in shared players list
     }
 
